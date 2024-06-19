@@ -1,2 +1,1 @@
-# memory-game-TOP
-A memory game from the Odin Project React Curriculum 
+# A memory game from Odin Project React Curriculum
