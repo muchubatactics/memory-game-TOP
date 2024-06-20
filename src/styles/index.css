@@ -1,6 +1,5 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -17,8 +16,11 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+}
+
+:root {
+  font-size: 24px;
 }
 
 
@@ -26,5 +28,51 @@ body {
   :root {
     color: #213547;
     background-color: #ffffff;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    font-size: 24px;
+  }
+
+  .intro-page > div {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 20px;
+  }
+
+  .intro-page > div > .intro-card:nth-child(2n + 1) {
+    justify-self: end;
+  }
+
+  .intro-page > div > .intro-card:nth-child(2n) {
+    justify-self: start;
+  }
+
+}
+
+@media (max-width: 800px) {
+  :root {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+  }
+
+  .intro-page > div {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, 1fr);
+    column-gap: 0px;
+    row-gap: 0px;
+  }
+
+  .intro-page > div > .intro-card:nth-child(n) {
+    justify-self: center;
   }
 }
