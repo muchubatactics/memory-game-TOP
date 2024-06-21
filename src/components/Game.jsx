@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "./Card";
 import ScoreBoard from "./ScoreBoard";
+import "../styles/game.css";
 
 export default function Game({level}) {
   const [score, setScore] = useState(0);
@@ -51,11 +52,13 @@ export default function Game({level}) {
     <div className="game">
       <h1>Here we go!!</h1>
       <ScoreBoard score={score} />
-      {
-        imgArr.map((link) => {
-          return <Card key={tmp++} image={link}/>
-        })
-      }
+      <div className="main">
+        {
+          imgArr.map((link) => {
+            return <Card key={tmp++} image={link}/>
+          })
+        }
+      </div>
     </div>
   );
 }
