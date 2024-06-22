@@ -1,4 +1,41 @@
 .game > .main {
   display: grid;
+}
+
+.game .main.easy {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 30px;
+}
+
+.game .main.medium {
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.game .main.hard {
   grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.game .main.extreme {
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.game {
+  display: flex;
+  flex-direction: column;
+}
+
+.game > .score-board {
+  margin-left: auto;
+  margin-bottom: 20px;
+}
+
+.game .instructions {
+  font-weight: 100;
 }

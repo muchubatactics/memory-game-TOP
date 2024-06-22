@@ -6,6 +6,7 @@ import Game from './Game';
 function App() {
   const [isOnIntroPage, setIsOnIntroPage] = useState(true);
   const [level, setLevel] = useState('');
+  const [rand, setRand] = useState(Math.round(Math.random() * 44));
 
   function cbForIntroPage(level) {
     setLevel(level);
@@ -20,7 +21,7 @@ function App() {
         isOnIntroPage ? 
         <IntroPage callback={cbForIntroPage} />
         :
-        <Game level={level} />
+        <Game level={level} offset={rand}/>
       }
     </>
   )
