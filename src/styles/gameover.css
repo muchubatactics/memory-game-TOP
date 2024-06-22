@@ -1,0 +1,23 @@
+.gameover > .buttons {
+  display: grid;
+  gap: 20px;
+}
+
+.gameover {
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+}
+
+.gameover button {
+  padding: 10px;
+  font-size: 1rem;
+  font-family: sans-serif;
+  font-weight: 500;
+  border: 0px;
+  transition: transform 0.5s ease;
+}
+
+.gameover button:hover {
+  transform: scale(1.05);
+}

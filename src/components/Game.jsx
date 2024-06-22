@@ -2,10 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import Card from "./Card";
 import ScoreBoard from "./ScoreBoard";
 import "../styles/game.css";
+import Gameover from "./Gameover";
 
 export default function Game({level, offset}) {
   const [score, setScore] = useState(0);
   const [imgArr, setImgArr] = useState([]);
+  const [legitimacy, setLegitimacy] = useState(2);
   const isFetchError = useRef(false);
 
   const ky = '3R2af7W6GKrbvl5fSM7XjcmPVgBeW6Qn';
@@ -26,7 +28,6 @@ export default function Game({level, offset}) {
   
 
   useEffect(() => {
-    console.log('ran');
     // fetch(`${base}api_key=${ky}&q=${query}&limit=${numberOfCards}&offset=${offset}&rating=g&lang=en&bundle=messaging_non_clips`, {
     fetch(`${base}api_key=${ky}&limit=${numberOfCards}&offset=${offset}`, {
       mode: 'cors'
@@ -54,13 +55,19 @@ export default function Game({level, offset}) {
       setImgArr(arr);
 
     }).catch(() => {
-      isFetchError.current = true; //it will work in this case even if it's lost every render
+      isFetchError.current = true;
+      setImgArr(['']); // force rerender
     });
 
   }, [numberOfCards, offset]);
 
-  function reshuffle(index) {
-    imgArr[index].clicks++;
+  function reshuffle(keyy) {
+    let temp1 = imgArr.map((obj) => {
+      if (obj.key == keyy) {
+        return {...obj, clicks: obj.clicks + 1};
+      }
+      return {...obj};
+    })
 
     let temp2 = [];
     let count = 0;
@@ -68,38 +75,68 @@ export default function Game({level, offset}) {
     while(count < numberOfCards) {
       let rand = Math.floor(Math.random() * numberOfCards);
       if (!temp2[rand]) {
-        temp2[rand] = {...(imgArr[count])};
+        temp2[rand] = temp1[count];
         count++;
       }
     }
+
+    setLegitimacy(ensureLegitimacy(temp2));
     setImgArr(temp2);
   }
+
+  function ensureLegitimacy(arr) {
+    // 0 for fail, 1 for pass, 2 for ongoing
+    let temp = 1;
+    if (!arr.length) return 2;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].clicks > 1) {
+        return 0;
+      }
+      if (!arr[i].clicks) temp = 2;
+    }
+
+    if (temp == 2) {
+      setScore((prev) => {
+        return prev + 1;
+      });
+    }
+
+    return temp;
+  }
+
 
   return (
     <div className="game">
       {
-        isFetchError.current ?
-        (
-          <>
-            <h1>We are experiencing an error getting the images</h1>
-            <h2>Either it&apos;s your network, or it&apos;s the use limit on our free api key</h2>
-          </>
+        legitimacy == 2 ? (
+          isFetchError.current ?
+          (
+            <>
+              <h1>We are experiencing an error getting the images</h1>
+              <h2>Either it&apos;s your network, or it&apos;s the use limit on our free api key</h2>
+            </>
+          )
+          : 
+          (
+            <>
+              <ScoreBoard score={score} />
+              <h1 className="instructions"><i>Click each, but only once!</i></h1>
+              <div className={"main " + level}>
+                {
+                  imgArr.map((obj) => {
+                    return <Card key={obj.key} image={obj.link} keyy={obj.key} cb={reshuffle} />
+                  })
+                }
+              </div>
+            </>
+          )
         )
-        : 
+        :
         (
-          <>
-            <ScoreBoard score={score} />
-            <h1 className="instructions"><i>Click each, but only once!</i></h1>
-            <div className={"main " + level}>
-              {
-                imgArr.map((obj) => {
-                  return <Card key={obj.key} image={obj.link} index={obj.key} cb={reshuffle} />
-                })
-              }
-            </div>
-          </>
+          <Gameover value={legitimacy} />
         )
       }
+      
     </div>
   );
 }
