@@ -8,8 +8,8 @@ export default function ScoreBoard ({score}) {
 
   return (
     <div className="score-board">
-      <div>Current Score:</div><div>{score}</div>
-      <div>Best Score:</div><div>{bestScore}</div>
+      <div>Current Score: {score}</div>
+      <div>Best Score: {bestScore}</div>
     </div>
   );
 }
