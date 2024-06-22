@@ -26,6 +26,7 @@ export default function Game({level, offset}) {
   
 
   useEffect(() => {
+    console.log('ran');
     // fetch(`${base}api_key=${ky}&q=${query}&limit=${numberOfCards}&offset=${offset}&rating=g&lang=en&bundle=messaging_non_clips`, {
     fetch(`${base}api_key=${ky}&limit=${numberOfCards}&offset=${offset}`, {
       mode: 'cors'
@@ -47,7 +48,7 @@ export default function Game({level, offset}) {
       
       let arr = [];
       for (let i = 0; i < numberOfCards; i++) {
-        arr.push(response.data[i].images.fixed_height.webp);
+        arr.push({link:response.data[i].images.fixed_height.webp, clicks: 0, key: i});
       }
 
       setImgArr(arr);
@@ -58,7 +59,21 @@ export default function Game({level, offset}) {
 
   }, [numberOfCards, offset]);
 
-  let tmp = 0;
+  function reshuffle(index) {
+    imgArr[index].clicks++;
+
+    let temp2 = [];
+    let count = 0;
+
+    while(count < numberOfCards) {
+      let rand = Math.floor(Math.random() * numberOfCards);
+      if (!temp2[rand]) {
+        temp2[rand] = {...(imgArr[count])};
+        count++;
+      }
+    }
+    setImgArr(temp2);
+  }
 
   return (
     <div className="game">
@@ -77,8 +92,8 @@ export default function Game({level, offset}) {
             <h1 className="instructions"><i>Click each, but only once!</i></h1>
             <div className={"main " + level}>
               {
-                imgArr.map((link) => {
-                  return <Card key={tmp++} image={link}/>
+                imgArr.map((obj) => {
+                  return <Card key={obj.key} image={obj.link} index={obj.key} cb={reshuffle} />
                 })
               }
             </div>
