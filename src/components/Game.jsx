@@ -4,7 +4,7 @@ import ScoreBoard from "./ScoreBoard";
 import "../styles/game.css";
 import Gameover from "./Gameover";
 
-export default function Game({level, offset}) {
+export default function Game({level, offset, cbToReturnToIntroPage}) {
   const [score, setScore] = useState(0);
   const [imgArr, setImgArr] = useState([]);
   const [legitimacy, setLegitimacy] = useState(2);
@@ -133,7 +133,7 @@ export default function Game({level, offset}) {
         )
         :
         (
-          <Gameover value={legitimacy} level={level}/>
+          <Gameover value={legitimacy} level={level} cbToReturnToIntroPage={cbToReturnToIntroPage} />
         )
       }
       

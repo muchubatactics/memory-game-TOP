@@ -8,20 +8,24 @@ function App() {
   const [level, setLevel] = useState('');
   const [rand, setRand] = useState(Math.round(Math.random() * 44));
 
-  function cbForIntroPage(level) {
+  function cbForLevel(level) {
     setLevel(level);
     setIsOnIntroPage((prev) => {
       return prev ? false : true;
     });
   }
 
+  function cbToReturnToIntroPage() {
+    setIsOnIntroPage(true);
+  }
+
   return (
     <>
       {
         isOnIntroPage ? 
-        <IntroPage callback={cbForIntroPage} />
+        <IntroPage callback={cbForLevel} />
         :
-        <Game level={level} offset={rand}/>
+        <Game level={level} offset={rand} cbToReturnToIntroPage={cbToReturnToIntroPage} />
       }
     </>
   )
