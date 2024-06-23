@@ -1,8 +1,14 @@
 import passedImg from '../assets/passed.gif';
 import failedImg from '../assets/failed.gif';
 import '../styles/gameover.css';
+import storage from './storage';
 
-export default function Gameover({value}) {
+export default function Gameover({value, level}) {
+
+  if (value == 1) {
+    let tmp = storage.getScores();
+    if (tmp[level] != 8 && tmp[level] != 12 && tmp[level] != 18 && tmp[level] != 24) storage.saveScores({...tmp, [level]: tmp[level] + 1});
+  }
 
   function handleTryAgain() {
     // TODO::write func

@@ -1,10 +1,18 @@
 import { useState } from "react";
-import "../styles/scoreboard.css"
+import "../styles/scoreboard.css";
+import scoreStorage from "./storage";
 
-export default function ScoreBoard ({score}) {
-  const [bestScore, setBestScore] = useState(0);
+// scoreStorage.clear();
+let scores = scoreStorage.getScores();
 
-  if (score > bestScore) setBestScore(score);
+export default function ScoreBoard ({score, level}) {
+  const [bestScore, setBestScore] = useState(scores[level]);
+
+  if (score > bestScore) {
+    scoreStorage.saveScores({...scores, [level]: score});
+    scores = scoreStorage.getScores();
+    setBestScore(score);
+  }
 
   return (
     <div className="score-board">

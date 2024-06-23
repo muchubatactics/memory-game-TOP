@@ -119,7 +119,7 @@ export default function Game({level, offset}) {
           : 
           (
             <>
-              <ScoreBoard score={score} />
+              <ScoreBoard score={score} level={level} />
               <h1 className="instructions"><i>Click each, but only once!</i></h1>
               <div className={"main " + level}>
                 {
@@ -133,7 +133,7 @@ export default function Game({level, offset}) {
         )
         :
         (
-          <Gameover value={legitimacy} />
+          <Gameover value={legitimacy} level={level}/>
         )
       }
       
