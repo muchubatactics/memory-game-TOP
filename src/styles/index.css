@@ -163,4 +163,9 @@ body {
     gap: 0px;
   }
 
+  .gameover img {
+    height: 300px;
+    width: auto;
+  }
+
 }
