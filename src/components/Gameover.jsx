@@ -7,7 +7,7 @@ export default function Gameover({value, level, cbToReturnToIntroPage}) {
 
   if (value == 1) {
     let tmp = storage.getScores();
-    if (tmp[level] != 8 && tmp[level] != 12 && tmp[level] != 18 && tmp[level] != 24) storage.saveScores({...tmp, [level]: tmp[level] + 1});
+    if (!(tmp[level] == 8 || tmp[level] == 12 || tmp[level] == 18 || tmp[level] == 24)) storage.saveScores({...tmp, [level]: tmp[level] + 1});
   }
 
   // function handleTryAgain() {
